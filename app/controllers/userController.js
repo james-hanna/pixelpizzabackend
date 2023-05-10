@@ -1,7 +1,10 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../../config/database");
-const validation = require("../middlewares/validation");
+const {
+  validateRegister,
+  validateLogin,
+} = require("../middlewares/validation");
 const { loginSchema, registerSchema } = require("../middlewares/validation");
 
 // Get all users
@@ -20,7 +23,7 @@ exports.registerUser = async (req, res, next) => {
     const { username, email, password } = req.body;
 
     // Validate the input data
-    const { error, value } = validation.validate(req.body, registerSchema);
+    const { error, value } = validateRegister(req.body);
     if (error) {
       return res.status(400).json({ error: error.details[0].message });
     }

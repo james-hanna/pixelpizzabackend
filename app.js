@@ -1,18 +1,20 @@
 // Required packages
 const express = require("express");
+const cors = require("cors");
 const app = express();
-const port = 5432;
+const port = 8080;
 
 // Middleware to parse JSON
 app.use(express.json());
 
+//enable CORS
+app.use(cors());
+
 // Import routes
 const userRoutes = require("./app/routes/userRoutes");
-const authRoutes = require("./app/routes/authRoutes");
 
 // Use routes
 app.use("/users", userRoutes);
-app.use("/auth", authRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
