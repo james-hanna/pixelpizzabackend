@@ -110,7 +110,8 @@ exports.deleteUser = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   try {
     // Validate the login request data
-    const { error, value } = validation.validate(req.body, loginSchema);
+    const { error, value } = validateLogin(req.body);
+
     if (error) {
       return res.status(400).json({ error: error.details[0].message });
     }
@@ -133,10 +134,13 @@ exports.login = async (req, res, next) => {
     }
 
     // Generate a JWT token
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-
+    const token = jwt.sign(
+      { userId: user.id, username: user.username },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "300h",
+      }
+    );
     // Return the token to the client
     res.json({ token });
   } catch (error) {
