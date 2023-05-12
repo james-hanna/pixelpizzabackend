@@ -12,9 +12,11 @@ app.use(cors());
 
 // Import routes
 const userRoutes = require("./app/routes/userRoutes");
+const pizzaRoutes = require("./app/routes/pizzaRoutes");
 
 // Use routes
 app.use("/users", userRoutes);
+app.use("/pizza", pizzaRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

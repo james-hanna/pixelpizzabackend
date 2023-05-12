@@ -9,7 +9,12 @@ exports.seed = function (knex) {
     .then(function () {
       // Inserts seed entries
       return knex("users").insert([
-        { username: "john", email: "john@example.com", password: "password" },
+        {
+          username: "john",
+          email: "john@example.com",
+          password: "password",
+          admin: false,
+        },
       ]);
     });
 };

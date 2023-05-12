@@ -44,8 +44,8 @@ exports.registerUser = async (req, res, next) => {
 
     // Insert the user into the database
     await db.none(
-      "INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",
-      [username, email, hashedPassword]
+      "INSERT INTO users (username, email, password, admin) VALUES ($1, $2, $3, $4)",
+      [username, email, hashedPassword, (admin = false)]
     );
 
     res.status(201).json({ message: "Registration successful" });
@@ -138,7 +138,7 @@ exports.login = async (req, res, next) => {
       { userId: user.id, username: user.username },
       process.env.JWT_SECRET,
       {
-        expiresIn: "300h",
+        expiresIn: "24h",
       }
     );
     // Return the token to the client
