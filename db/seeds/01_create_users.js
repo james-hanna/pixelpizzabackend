@@ -15,6 +15,18 @@ exports.seed = function (knex) {
           password: "password",
           admin: false,
         },
+        {
+          username: "candy",
+          email: "candy@example.com",
+          password: "password",
+          admin: false,
+        },
+        {
+          username: "sandy",
+          email: "sandy@example.com",
+          password: "password",
+          admin: false,
+        },
       ]);
     });
 };

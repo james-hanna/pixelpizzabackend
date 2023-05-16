@@ -147,3 +147,16 @@ exports.login = async (req, res, next) => {
     next(error);
   }
 };
+
+// Logout user
+exports.logout = async (req, res, next) => {
+  try {
+    // Clear the JWT token from localStorage
+    // Implement any additional logout logic here
+    // For example, you can clear any session data or perform other cleanup tasks
+
+    res.json({ message: "Logout successful" });
+  } catch (error) {
+    next(error);
+  }
+};
