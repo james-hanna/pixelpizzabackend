@@ -38,12 +38,13 @@ exports.getCartItems = async (req, res, next) => {
     const { userId } = req;
 
     const cartItems = await db.any(
-      "SELECT c.quantity, p.name, p.price FROM cart c INNER JOIN products p ON c.product_id = p.id WHERE c.user_id = $1",
+      "SELECT c.quantity, p.name, p.price FROM cart c INNER JOIN pizza p ON c.product_id = p.id WHERE c.user_id = $1",
       [userId]
     );
 
     res.json(cartItems);
   } catch (error) {
+    console.log("req.header:", req.header);
     next(error);
   }
 };
@@ -66,6 +67,24 @@ exports.removeFromCart = async (req, res, next) => {
   }
 };
 
+// Update the quantity of an item in the cart
+exports.updateCartItemQuantity = async (req, res, next) => {
+  try {
+    const { userId } = req;
+    const { id } = req.params;
+    const { quantity } = req.body;
+
+    await db.none(
+      "UPDATE cart SET quantity = $1 WHERE user_id = $2 AND product_id = $3",
+      [quantity, userId, id]
+    );
+
+    res.json({ message: "Cart item quantity updated successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Clear the entire cart for a user
 exports.clearCart = async (req, res, next) => {
   try {
@@ -79,5 +98,3 @@ exports.clearCart = async (req, res, next) => {
     next(error);
   }
 };
-
-module.exports = cartController;
