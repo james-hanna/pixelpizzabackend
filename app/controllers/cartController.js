@@ -38,7 +38,7 @@ exports.getCartItems = async (req, res, next) => {
     const { userId } = req;
 
     const cartItems = await db.any(
-      "SELECT c.quantity, p.name, p.price FROM cart c INNER JOIN pizza p ON c.product_id = p.id WHERE c.user_id = $1",
+      "SELECT c.quantity, p.id as product_id, p.name, p.price FROM cart c INNER JOIN pizza p ON c.product_id = p.id WHERE c.user_id = $1",
       [userId]
     );
 
@@ -53,12 +53,12 @@ exports.getCartItems = async (req, res, next) => {
 exports.removeFromCart = async (req, res, next) => {
   try {
     const { userId } = req;
-    const { productId } = req.params;
+    const { id } = req.params;
 
     // Remove the item from the cart
     await db.none("DELETE FROM cart WHERE user_id = $1 AND product_id = $2", [
       userId,
-      productId,
+      id,
     ]);
 
     res.json({ message: "Item removed from cart successfully" });
